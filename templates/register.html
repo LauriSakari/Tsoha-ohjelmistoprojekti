@@ -1,0 +1,27 @@
+<h1>Register</h1>
+
+{% block content %}
+
+{% endblock %}
+
+<form action="/add_user" method="POST">
+    <p>Tykkäätkö yleensä kiivetä tehokkaasti vai rennosti?</p>
+    <input type="radio" name="style" value="1"> rennosti
+    <input type="radio" name="style" value="2"> tehokkaasti
+
+    <p>Mitä greidiä kiipeät yleensä</p>
+    <input type="radio" name="grade" value="4"> 4
+    <input type="radio" name="grade" value="5"> 5
+    <input type="radio" name="grade" value="6"> 6
+    <input type="radio" name="grade" value="7"> 7
+    <input type="radio" name="grade" value="8"> 8
+    <input type="radio" name="grade" value="9"> 9
+
+    <p>Tunnus:<br>
+    <input type="text" name="username"></p>
+    <p>Salasana:<br>
+    <input type="password" name="password"></p>
+    <p>Salasana uudestaan:<br>
+    <input type="password" name="verify_password"></p>
+    <input type="submit" value="Register">
+</form>

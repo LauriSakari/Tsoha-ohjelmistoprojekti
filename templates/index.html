@@ -2,6 +2,10 @@
 <h1>Kiipeilyseuraa</h1>
 <h2>Tervetuloa</h2>
 
+{% block content %}
+
+{% endblock %}
+
 {% if session.username %}
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
@@ -12,17 +16,9 @@
 <input type="text" name="username"></p>
 <p>Salasana:<br>
 <input type="password" name="password"></p>
-<input type="submit" value="Kirjaudu">
+<input type="submit" value="Sign in">
 </form>
 
-<p>or register</p>
-
-<form action="/register" method="POST">
-    <p>Tunnus:<br>
-    <input type="text" name="username"></p>
-    <p>Salasana:<br>
-    <input type="password" name="password"></p>
-    <input type="submit" value="Register">
-</form>
+<p>or <a href="/register">register</a></p>
 {% endif %}
 
