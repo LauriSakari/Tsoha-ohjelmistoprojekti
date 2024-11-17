@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, redirect, request, session
 from os import getenv
 import user_handling
+import messages
 from werkzeug.security import check_password_hash, generate_password_hash
 app.secret_key = getenv("SECRET_KEY")
 
@@ -24,6 +25,7 @@ def login():
         hash_value = user.password
         if check_password_hash(hash_value, password):
             session ["username"] = username
+            session ["user_id"] = user.id
         else:
             return render_template("error.html", message="Invalid password")
 
@@ -40,7 +42,6 @@ def add_user():
     password = request.form["password"]
     grade = request.form["grade"]
     style = request.form["style"]
-    # description = request.form["description"]
 
     if password != request.form["verify_password"]:
         return render_template("error.html", message="salasanat eivät täsmää, yritä uudestaan")
@@ -58,11 +59,23 @@ def add_user():
         return render_template("error.html", message = e)
     
     session ["username"] = username
+    session ["user_id"] = user_id
+
     return redirect("/home")
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    list = messages.get_list()
+    return render_template("home.html", count=len(list), messages=list)
+
+@app.route("/send_message", methods=["POST"])
+def send():
+    content = request.form["content"]
+    user_id = session["user_id"]
+    if messages.send(content, user_id):
+        return redirect("/home")
+    else:
+        return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
 
 @app.route("/logout")
