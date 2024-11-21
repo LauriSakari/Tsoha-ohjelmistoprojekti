@@ -57,7 +57,7 @@ def add_user():
         user_handling.add_userinfo(user_id, grade, style)
     except Exception as e:
         return render_template("error.html", message = e)
-    
+
     session ["username"] = username
     session ["user_id"] = user_id
 
@@ -77,6 +77,12 @@ def send():
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
+@app.route("/add_slot", methods=["GET", "POST"])
+def add_slot():
+    if request.method == "POST":
+        pass
+    if request.method == "GET":
+        return render_template("add_slot.html")
 
 @app.route("/logout")
 def logout():
