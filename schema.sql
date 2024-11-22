@@ -28,7 +28,7 @@ CREATE TABLE messages (
 CREATE TABLE free_times (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users,
-    date_of_time DATE
+    date_of_time DATE,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     CONSTRAINT check_time CHECK (start_time < end_time)

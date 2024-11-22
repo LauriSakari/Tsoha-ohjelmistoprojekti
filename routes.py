@@ -3,6 +3,7 @@ from flask import render_template, redirect, request, session
 from os import getenv
 import user_handling
 import messages
+import time_slots
 from werkzeug.security import check_password_hash, generate_password_hash
 app.secret_key = getenv("SECRET_KEY")
 
@@ -80,7 +81,18 @@ def send():
 @app.route("/add_slot", methods=["GET", "POST"])
 def add_slot():
     if request.method == "POST":
-        pass
+        print(request.form)
+        date = request.form["date"]
+        starting_time = request.form["starting_time"]
+        finishing_time = request.form["finising_time"]
+
+        print(session["user_id"], date, starting_time, finishing_time)
+
+        
+        result = time_slots.send(session["user_id"], date, starting_time, finishing_time)
+
+        print(result)
+        return redirect("/home")
     if request.method == "GET":
         return render_template("add_slot.html")
 
