@@ -1,7 +1,7 @@
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 
 Viestien määrä: {{ count }}
-<hr>
+<hr style="color: red;">
 {% for message in messages %}
 <i>Viesti:</i> {{ message[0] }}
 <p>
@@ -19,5 +19,4 @@ Viestien määrä: {{ count }}
     </form>
 
 <a href="/add_slot">Lisää uusi aika</a>
-
 <a href="/logout">Kirjaudu ulos</a>

@@ -1,3 +1,4 @@
+<!doctype html>
 <title>Kiipeilyseuraa</title>
 <h1>Kiipeilyseuraa</h1>
 <h2>Tervetuloa</h2>
@@ -7,8 +8,7 @@
 {% endblock %}
 
 {% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
+{% include "home.html" %}
 
 {% else %}
 <p>Sign in:</p>
