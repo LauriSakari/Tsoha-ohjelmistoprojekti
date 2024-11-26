@@ -3,13 +3,14 @@ DROP TABLE free_times;
 DROP TABLE messages;
 DROP TABLE users;
 
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY, 
     username TEXT NOT NULL UNIQUE, 
     password TEXT NOT NULL,
     grade INTEGER,  
     efficient INTEGER
+    CONSTRAINT check_grade CHECK (grade > 3 AND grade < 10)
+    CONSTRAINT efficient_check CHECK (efficient > 1 AND efficient < 3)
 );
 
 CREATE TABLE messages (

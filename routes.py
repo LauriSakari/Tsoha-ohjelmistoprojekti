@@ -47,6 +47,12 @@ def add_user():
     grade = request.form["grade"]
     style = request.form["style"]
 
+    if len(username) < 4 or not username.isalnum():
+        return render_template("error.html", message="käyttäjänimi on liian lyhyt tai sisältää erikoismerkkejä, minimipituus 5 merkkiä")
+
+    if len(password) < 8:
+        return render_template("error.html", message="salasana on liian lyhyt, minimipituus 8 merkkiä")
+
     if password != request.form["verify_password"]:
         return render_template("error.html", message="salasanat eivät täsmää, yritä uudestaan")
 
@@ -55,7 +61,7 @@ def add_user():
     try:
         user_id = user_handling.add_user(username, hash_value, grade, style)
     except IntegrityError:
-        return render_template("error.html", message = "Käyttäjänimi on jo käytössä")
+        return render_template("error.html", message = "Käyttäjänimi on jo käytössä tai olet syöttänyt epäkelpoa tietoa")
 
     session ["username"] = username
     session ["user_id"] = user_id
@@ -66,6 +72,7 @@ def add_user():
 def send():
     content = request.form["content"]
     user_id = session["user_id"]
+    
     if messages.send(content, user_id):
         return redirect("/")
     else:
@@ -81,7 +88,6 @@ def add_slot():
 
         print(session["user_id"], date, starting_time, finishing_time)
 
-        
         result = time_slots.send(session["user_id"], date, starting_time, finishing_time)
 
         print(result)
