@@ -53,13 +53,9 @@ def add_user():
     hash_value = generate_password_hash(password)
 
     try:
-        user_id = user_handling.add_user(username, hash_value)
+        user_id = user_handling.add_user(username, hash_value, grade, style)
     except IntegrityError:
         return render_template("error.html", message = "Käyttäjänimi on jo käytössä")
-    try:
-        user_handling.add_userinfo(user_id, grade, style)
-    except Exception as e:
-        return render_template("error.html", message = e)
 
     session ["username"] = username
     session ["user_id"] = user_id

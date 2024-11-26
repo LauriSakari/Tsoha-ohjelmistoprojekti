@@ -1,7 +1,7 @@
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 
 Viestien määrä: {{ count }}
-<hr style="color: red;">
+<hr>
 {% for message in messages %}
 <i>Viesti:</i> {{ message[0] }}
 <p>
