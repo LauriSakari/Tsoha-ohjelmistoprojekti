@@ -9,6 +9,10 @@
 
 {% if session.username %}
 {% include "home.html" %}
+{% include "time_slots.html" %}
+
+<a href="/add_slot">Lisää uusi aika</a>
+<a href="/logout">Kirjaudu ulos</a>
 
 {% else %}
 <p>Sign in:</p>

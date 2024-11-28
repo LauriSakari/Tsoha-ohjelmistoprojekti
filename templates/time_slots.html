@@ -1,0 +1,18 @@
+<hr>
+<p>Vapaiden aikojen määrä: {{ count_times }}</p>
+<hr>
+{% for time in times %}
+<i>Lähettäjä:</i> {{ time.username }}
+<p>
+<i>Päivämäärä:</i> {{ time.date_of_time }}
+<p>
+<i>Aloitusaika:</i> {{ time.start_time }}
+<p>
+<i>Lopetusaika:</i> {{ time.end_time }}
+<p></p>
+<form action="/reserve_slot" method="POST">
+    <input type="hidden" value="{{ time.username }}" name="user"/>
+<button type="submit">Varaa aika</button>
+</form>
+<hr>
+{% endfor %}

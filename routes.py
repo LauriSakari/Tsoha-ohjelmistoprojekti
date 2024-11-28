@@ -11,7 +11,9 @@ app.secret_key = getenv("SECRET_KEY")
 @app.route("/")
 def index():
     list = messages.get_list()
-    return render_template("index.html", count=len(list), messages=list)
+    times = time_slots.get_free_times()
+    print(times)
+    return render_template("index.html", count=len(list), messages=list, count_times=len(times), times=times)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -94,6 +96,12 @@ def add_slot():
         return redirect("/")
     if request.method == "GET":
         return render_template("add_slot.html")
+
+@app.route("/reserve_slot", methods=["POST"])
+def reserve_slot():
+    print("Moi", request.form)
+    return render_template("booking_confirmed.html")
+
 
 @app.route("/logout")
 def logout():
