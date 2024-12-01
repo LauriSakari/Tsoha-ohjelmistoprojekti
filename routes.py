@@ -74,7 +74,7 @@ def add_user():
 def send():
     content = request.form["content"]
     user_id = session["user_id"]
-    
+
     if messages.send(content, user_id):
         return redirect("/")
     else:
@@ -99,9 +99,21 @@ def add_slot():
 
 @app.route("/reserve_slot", methods=["POST"])
 def reserve_slot():
-    print("Moi", request.form)
-    return render_template("booking_confirmed.html")
+    user = request.form["user"]
+    date = request.form["date"]
+    start_time = request.form["start_time"]
+    end_time = request.form["end_time"]
+    slot_id = request.form["id"]
+    print("TÄMÄ ", slot_id)
+    time_slots.book_time(session["user_id"], slot_id)
 
+    booked_times = time_slots.get_booked_times(session["user_id"])
+
+    for time in booked_times:
+        print(time)
+
+
+    return render_template("booking_confirmed.html", info=[user, date, start_time, end_time], booked_times=booked_times)
 
 @app.route("/logout")
 def logout():

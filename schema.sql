@@ -30,6 +30,7 @@ CREATE TABLE free_times (
 );
 
 CREATE TABLE booked_times (
+    PRIMARY KEY (free_time_id, user_id),
     free_time_id INT REFERENCES free_times,
     user_id INT REFERENCES users
 );

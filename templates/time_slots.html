@@ -11,7 +11,11 @@
 <i>Lopetusaika:</i> {{ time.end_time }}
 <p></p>
 <form action="/reserve_slot" method="POST">
+    <input type="hidden" value="{{ time.id }}" name="id"/>
     <input type="hidden" value="{{ time.username }}" name="user"/>
+    <input type="hidden" value="{{ time.date_of_time }}" name="date"/>
+    <input type="hidden" value="{{ time.start_time }}" name="start_time"/>
+    <input type="hidden" value="{{ time.end_time }}" name="end_time"/>
 <button type="submit">Varaa aika</button>
 </form>
 <hr>

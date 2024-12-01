@@ -1,1 +1,18 @@
 <h1>Varaus vahvistettu</h1>
+<p>Kiipeilet käyttäjän {{ info[0] }} kanssa {{ info[1] }} klo {{ info[2] }} - {{ info[3] }} </p>
+
+<p>Varatut aikasi:</p>
+<hr>
+{% for time in booked_times %}
+<i>Lähettäjä:</i> {{ time[0] }}
+<p>
+<i>Päivämäärä:</i> {{ time[1] }}
+<p>
+<i>Aloitusaika:</i> {{ time [2] }}
+<p>
+<i>Lopetusaika:</i> {{ time [3] }}
+<p></p>
+<hr>
+{% endfor %}
+
+<a href="/">Paluu</a> 
