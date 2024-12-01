@@ -22,6 +22,20 @@ Tilanne 17.11.24:
 - Käyttäjä voi kirjautua ulos
 - Kirjautumisen tai rekisteröitymisen epäonnistuessa käyttäjälle näkyy virheviestit
 
+Tilanne 01.12.24 edellisten toimitojen lisäksi
+
+- Tietoturvaa parannettu validointien ja paranneltujen virheilmoitusten avulla
+- Yksi taulu poistettu
+- Käyttäjänimen on oltava minimissään 4 merkkiä pitkä ja salasanan 8
+- Käyttäjä voi lisätä ajan jolloin hän olisi vapaa kiipeilelmään klikkaamalla
+- Käyttäjä näkee listan vapaista ajoista 
+- Käyttäjä voi varata toisen käyttäjän lisäämän vapaan ajan
+- Käyttäjälle näytetään vahvistussivu jossa näkyy myös kaikki käyttäjän varaamat ajat
+- Käyttäjä voi palata takaisin päänäkymään klikkaamalla paluulinkkiä
+- Tämän jälkeen kaikki on vielä kesken eikä toimi oikein.
+
+
+
 Käynnistysohjeet:
 
 Kloonaa tämä repositorio omalle koneellesi ja siirry sen juurikansioon. Luo kansioon .env-tiedosto ja määritä sen sisältö seuraavanlaiseksi:
