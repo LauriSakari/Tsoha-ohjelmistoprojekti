@@ -6,6 +6,7 @@ import secrets
 import user_handling
 import messages
 import time_slots
+import utils
 from werkzeug.security import check_password_hash, generate_password_hash
 app.secret_key = getenv("SECRET_KEY")
 
@@ -77,7 +78,7 @@ def add_user():
 def send():
     content = request.form["content"]
     user_id = session["user_id"]
-
+    utils.check_csrf_token()
     if messages.send(content, user_id):
         return redirect("/")
     else:
@@ -85,14 +86,14 @@ def send():
     
 @app.route("/remove_message", methods=["POST"])
 def remove_message():
-
+    utils.check_csrf_token()
     messages.remove_message(request.form["remove"])
     return redirect("/")
 
 @app.route("/add_slot", methods=["GET", "POST"])
 def add_slot():
     if request.method == "POST":
-        print(request.form)
+        utils.check_csrf_token()
         date = request.form["date"]
         starting_time = request.form["starting_time"]
         finishing_time = request.form["finising_time"]
@@ -109,6 +110,7 @@ def add_slot():
 @app.route("/reserve_slot", methods=["GET", "POST"])
 def reserve_slot():
     if request.method == "POST":
+        utils.check_csrf_token()
         user = request.form["user"]
         date = request.form["date"]
         start_time = request.form["start_time"]

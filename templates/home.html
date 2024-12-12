@@ -12,6 +12,7 @@ Viestien määrä: {{ count }}
 {% if message[1] == session.username %}
     <form action="/remove_message" method="POST">
         <input type="hidden" value="{{ message[3] }}" name="remove"/>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <button type="submit">Poista viesti</button>
     </form>
 {% endif %}
@@ -22,5 +23,6 @@ Viestien määrä: {{ count }}
     Viesti: <br>
     <textarea name="content" rows="3" cols="40"></textarea>
     <br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lähetä">
     </form>

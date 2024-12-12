@@ -2,10 +2,11 @@
 <form action="/add_slot" method="POST">
 
     <p>Päivämäärä:<br>
-    <input type="date" id="date" name="date"></p>
+    <input type="date" id="date" name="date" required></p>
     <p>Aloitusaika:<br>
-    <input type="time" name="starting_time"></p>
+    <input type="time" name="starting_time" required></p>
     <p>Lopetusaika:<br>
-    <input type="time" name="finising_time"></p>
+    <input type="time" name="finising_time" required></p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää aika">
 </form>
