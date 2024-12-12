@@ -55,7 +55,8 @@ def get_booked_times(user_id):
         sql2 = """SELECT U.username, F.date_of_time,
         TO_CHAR(F.start_time, 'HH24.MI') AS start_time,
         TO_CHAR(F.end_time, 'HH24.MI') AS end_time, F.id
-        FROM free_times F, users U, booked_times B 
-        WHERE F.id = B.free_time_id AND B.user_id = U.id AND U.id = :user_id;"""
-        result = db.session.execute(text(sql), {"user_id":user_id})
+        FROM free_times F JOIN users U ON F.user_id = U.id
+        JOIN booked_times B ON F.id = B.free_time_id
+        WHERE B.user_id = :user_id;"""
+        result = db.session.execute(text(sql2), {"user_id":user_id})
         return result.fetchall()

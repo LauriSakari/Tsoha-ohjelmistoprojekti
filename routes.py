@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, redirect, request, session
 from os import getenv
 from sqlalchemy.exc import IntegrityError
+import secrets
 import user_handling
 import messages
 import time_slots
@@ -29,6 +30,8 @@ def login():
         if check_password_hash(hash_value, password):
             session ["username"] = username
             session ["user_id"] = user.id
+            session["csrf_token"] = secrets.token_hex(16)
+
         else:
             return render_template("error.html", message="Invalid password")
 
@@ -48,7 +51,7 @@ def add_user():
     grade = request.form["grade"]
     style = request.form["style"]
 
-    if len(username) < 4 or not username.isalnum():
+    if len(username) < 5 or not username.isalnum():
         return render_template("error.html", message="käyttäjänimi on liian lyhyt tai sisältää erikoismerkkejä, minimipituus 5 merkkiä")
 
     if len(password) < 8:
@@ -66,6 +69,7 @@ def add_user():
 
     session ["username"] = username
     session ["user_id"] = user_id
+    session["csrf_token"] = secrets.token_hex(16)
 
     return redirect("/")
 
@@ -102,18 +106,25 @@ def add_slot():
     if request.method == "GET":
         return render_template("add_slot.html")
 
-@app.route("/reserve_slot", methods=["POST"])
+@app.route("/reserve_slot", methods=["GET", "POST"])
 def reserve_slot():
-    user = request.form["user"]
-    date = request.form["date"]
-    start_time = request.form["start_time"]
-    end_time = request.form["end_time"]
-    slot_id = request.form["id"]
-    time_slots.book_time(session["user_id"], slot_id)
+    if request.method == "POST":
+        user = request.form["user"]
+        date = request.form["date"]
+        start_time = request.form["start_time"]
+        end_time = request.form["end_time"]
+        slot_id = request.form["id"]
+        time_slots.book_time(session["user_id"], slot_id)
 
-    booked_times = time_slots.get_booked_times(session["user_id"])
+        booked_times = time_slots.get_booked_times(session["user_id"])
 
-    return render_template("booking_confirmed.html", info=[user, date, start_time, end_time], booked_times=booked_times)
+        return render_template("booking_confirmed.html", info=[user, date, start_time, end_time], booked_times=booked_times)
+    
+    if request.method == "GET":
+        booked_times = time_slots.get_booked_times(session["user_id"])
+
+        return render_template("booking_confirmed.html", info=None, booked_times=booked_times)
+        
 
 @app.route("/logout")
 def logout():
