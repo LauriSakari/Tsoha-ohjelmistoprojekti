@@ -10,10 +10,9 @@ app.secret_key = getenv("SECRET_KEY")
 
 @app.route("/")
 def index():
-    list = messages.get_list()
-    times = time_slots.get_free_times()
-    print(times)
-    return render_template("index.html", count=len(list), messages=list, count_times=len(times), times=times)
+    message_list = messages.get_list()
+    times = time_slots.get_free_times(session.get("user_id"))
+    return render_template("index.html", count=len(message_list), messages=message_list, count_times=len(times), times=times)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -79,6 +78,12 @@ def send():
         return redirect("/")
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
+    
+@app.route("/remove_message", methods=["POST"])
+def remove_message():
+
+    messages.remove_message(request.form["remove"])
+    return redirect("/")
 
 @app.route("/add_slot", methods=["GET", "POST"])
 def add_slot():
@@ -88,7 +93,7 @@ def add_slot():
         starting_time = request.form["starting_time"]
         finishing_time = request.form["finising_time"]
 
-        print(session["user_id"], date, starting_time, finishing_time)
+        print("TIEDOT ", session["user_id"], date, starting_time, finishing_time)
 
         result = time_slots.send(session["user_id"], date, starting_time, finishing_time)
 
@@ -104,14 +109,9 @@ def reserve_slot():
     start_time = request.form["start_time"]
     end_time = request.form["end_time"]
     slot_id = request.form["id"]
-    print("TÄMÄ ", slot_id)
     time_slots.book_time(session["user_id"], slot_id)
 
     booked_times = time_slots.get_booked_times(session["user_id"])
-
-    for time in booked_times:
-        print(time)
-
 
     return render_template("booking_confirmed.html", info=[user, date, start_time, end_time], booked_times=booked_times)
 

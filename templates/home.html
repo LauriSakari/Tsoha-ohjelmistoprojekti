@@ -8,6 +8,13 @@ Viestien määrä: {{ count }}
 <i>Lähettäjä:</i> {{ message[1] }}
 <p>
 <i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+{% if message[1] == session.username %}
+    <form action="/remove_message" method="POST">
+        <input type="hidden" value="{{ message[3] }}" name="remove"/>
+    <button type="submit">Poista viesti</button>
+    </form>
+{% endif %}
 <hr>
 {% endfor %}
 
