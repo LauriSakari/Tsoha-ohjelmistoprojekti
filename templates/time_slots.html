@@ -10,7 +10,7 @@
 <p>
 <i>Lopetusaika:</i> {{ time.end_time }}
 <p></p>
-<form action="/reserve_slot" method="POST">
+<form action="/reserved_slots" method="POST">
     <input type="hidden" value="{{ time.id }}" name="id"/>
     <input type="hidden" value="{{ time.username }}" name="user"/>
     <input type="hidden" value="{{ time.date_of_time }}" name="date"/>

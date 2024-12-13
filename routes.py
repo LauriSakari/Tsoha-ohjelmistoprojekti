@@ -97,17 +97,19 @@ def add_slot():
         date = request.form["date"]
         starting_time = request.form["starting_time"]
         finishing_time = request.form["finising_time"]
+        location = request.form["location"]
 
         print("TIEDOT ", session["user_id"], date, starting_time, finishing_time)
 
-        result = time_slots.send(session["user_id"], date, starting_time, finishing_time)
+        result = time_slots.send(session["user_id"], date, starting_time, finishing_time, location)
 
         print(result)
         return redirect("/")
     if request.method == "GET":
-        return render_template("add_slot.html")
+        locations = time_slots.get_locations()
+        return render_template("add_slot.html", locations=locations)
 
-@app.route("/reserve_slot", methods=["GET", "POST"])
+@app.route("/reserved_slots", methods=["GET", "POST"])
 def reserve_slot():
     if request.method == "POST":
         utils.check_csrf_token()

@@ -1,7 +1,9 @@
-DROP TABLE booked_times;
-DROP TABLE free_times;
-DROP TABLE messages;
-DROP TABLE users;
+
+DROP TABLE IF EXISTS booked_times;
+DROP TABLE IF EXISTS free_times;
+DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY, 
@@ -20,9 +22,15 @@ CREATE TABLE messages (
     sent_at TIMESTAMP
 );
 
+CREATE TABLE locations (
+    id SERIAL PRIMARY KEY,
+    name TEXT
+);
+
 CREATE TABLE free_times (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users,
+    location_id INT NOT NULL REFERENCES locations,
     date_of_time DATE,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
@@ -34,3 +42,6 @@ CREATE TABLE booked_times (
     free_time_id INT REFERENCES free_times,
     user_id INT REFERENCES users
 );
+
+INSERT INTO locations (name) VALUES ('Ristikko');
+INSERT INTO locations (name) VALUES ('Salmisaari');
