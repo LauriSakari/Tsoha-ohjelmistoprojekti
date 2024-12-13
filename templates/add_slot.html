@@ -1,4 +1,6 @@
+{% extends "index.html" %}
 
+{% block content %}
 <form action="/add_slot" method="POST">
 
     <p>Päivämäärä:<br>
@@ -15,3 +17,5 @@
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Lisää aika">
 </form>
+
+{% endblock %}

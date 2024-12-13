@@ -1,8 +1,8 @@
-<h1>Register</h1>
+{% extends "index.html" %}
 
 {% block content %}
+<h1>Register</h1>
 
-{% endblock %}
 
 <form action="/add_user" method="POST">
     <p>Tykkäätkö yleensä kiivetä tehokkaasti vai rennosti?</p>
@@ -25,3 +25,5 @@
     <input type="password" name="verify_password"></p>
     <input type="submit" value="Register">
 </form>
+
+{% endblock %}

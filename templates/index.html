@@ -1,29 +1,25 @@
 <!doctype html>
+<link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Kiipeilyseuraa</title>
 <h1>Kiipeilyseuraa</h1>
 <h2>Tervetuloa</h2>
+
+{% if session.username %}
+    {% include "top_info.html" %}
+{% endif %}
+
+{% block error %}
+
+{% endblock %}
 
 {% block content %}
 
 {% endblock %}
 
-{% if session.username %}
-{% include "home.html" %}
-{% include "time_slots.html" %}
 
-<a href="/add_slot">Lisää uusi aika</a>
-<a href="/logout">Kirjaudu ulos</a>
 
-{% else %}
-<p>Sign in:</p>
-<form action="/login" method="POST">
-<p>Tunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Sign in">
-</form>
 
-<p>or <a href="/register">register</a></p>
-{% endif %}
+
 

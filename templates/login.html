@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<p>Sign in:</p>
+<form action="/login" method="POST">
+<p>Tunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Sign in">
+</form>
+
+<p>or <a href="/register">register</a></p>
+
+{% endblock %}

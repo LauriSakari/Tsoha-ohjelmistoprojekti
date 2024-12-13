@@ -12,31 +12,41 @@ app.secret_key = getenv("SECRET_KEY")
 
 @app.route("/")
 def index():
+    if not session.get("username"):
+        return redirect("/login")
+    
+    return render_template("index.html")
+
+@app.route("/messages", methods=["GET"])
+def messages_page():
     message_list = messages.get_list()
-    times = time_slots.get_free_times(session.get("user_id"))
-    return render_template("index.html", count=len(message_list), messages=message_list, count_times=len(times), times=times)
+    return render_template("messages.html", count=len(message_list), messages=message_list)
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "GET":
+        return render_template("login.html")
 
-    username = request.form["username"]
-    password = request.form["password"]
+    if request.method == "POST":
 
-    user = user_handling.find_username(username)
+        username = request.form["username"]
+        password = request.form["password"]
 
-    if not user:
-        return render_template("error.html", message="Invalid username")
-    else:
-        hash_value = user.password
-        if check_password_hash(hash_value, password):
-            session ["username"] = username
-            session ["user_id"] = user.id
-            session["csrf_token"] = secrets.token_hex(16)
+        user = user_handling.find_username(username)
 
+        if not user:
+            return render_template("error.html", message="Invalid username")
         else:
-            return render_template("error.html", message="Invalid password")
+            hash_value = user.password
+            if check_password_hash(hash_value, password):
+                session ["username"] = username
+                session ["user_id"] = user.id
+                session["csrf_token"] = secrets.token_hex(16)
 
-    return redirect("/")
+            else:
+                return render_template("error.html", message="Invalid password")
+
+        return redirect("/")
 
 @app.route("/register")
 def register():
@@ -80,7 +90,7 @@ def send():
     user_id = session["user_id"]
     utils.check_csrf_token()
     if messages.send(content, user_id):
-        return redirect("/")
+        return redirect("/messages")
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
     
@@ -88,7 +98,7 @@ def send():
 def remove_message():
     utils.check_csrf_token()
     messages.remove_message(request.form["remove"])
-    return redirect("/")
+    return redirect("/messages")
 
 @app.route("/add_slot", methods=["GET", "POST"])
 def add_slot():
@@ -99,15 +109,21 @@ def add_slot():
         finishing_time = request.form["finising_time"]
         location = request.form["location"]
 
-        print("TIEDOT ", session["user_id"], date, starting_time, finishing_time)
-
-        result = time_slots.send(session["user_id"], date, starting_time, finishing_time, location)
-
-        print(result)
+        try:
+            time_slots.send(session["user_id"], date, starting_time, finishing_time, location)
+        except IntegrityError:
+            return render_template("error.html", message = "Tarkista että olet syöttänyt tiedot oikein. Aloitusajan täytyy olla aikaisempi kuin lopetusajan")
+        
         return redirect("/")
     if request.method == "GET":
         locations = time_slots.get_locations()
         return render_template("add_slot.html", locations=locations)
+    
+@app.route("/free_slots", methods=["GET"])
+def free_slots():
+    times = time_slots.get_free_times(session.get("user_id"))
+    return render_template("time_slots.html", count_times=len(times), times=times)
+
 
 @app.route("/reserved_slots", methods=["GET", "POST"])
 def reserve_slot():
@@ -122,12 +138,12 @@ def reserve_slot():
 
         booked_times = time_slots.get_booked_times(session["user_id"])
 
-        return render_template("booking_confirmed.html", info=[user, date, start_time, end_time], booked_times=booked_times)
+        return render_template("bookings.html", info=[user, date, start_time, end_time], booked_times=booked_times)
     
     if request.method == "GET":
         booked_times = time_slots.get_booked_times(session["user_id"])
 
-        return render_template("booking_confirmed.html", info=None, booked_times=booked_times)
+        return render_template("bookings.html", info=None, booked_times=booked_times)
         
 
 @app.route("/logout")
