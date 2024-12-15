@@ -12,7 +12,7 @@ CREATE TABLE users (
     grade INTEGER,  
     efficient INTEGER
     CONSTRAINT check_grade CHECK (grade > 3 AND grade < 10)
-    CONSTRAINT efficient_check CHECK (efficient > 1 AND efficient < 3)
+    CONSTRAINT efficient_check CHECK (efficient > 0 AND efficient < 3)
 );
 
 CREATE TABLE messages (

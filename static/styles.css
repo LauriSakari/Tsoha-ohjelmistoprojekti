@@ -6,9 +6,13 @@ body {
 }
 
 textarea {
-    background-color: aliceblue;
+    background-color: whitesmoke;
 }
 
 .error {
     color: red;
+}
+
+.links {
+    margin-right: 15px;
 }

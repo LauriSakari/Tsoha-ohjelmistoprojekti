@@ -46,7 +46,7 @@ def login():
             else:
                 return render_template("error.html", message="Invalid password")
 
-        return redirect("/")
+        return redirect("/login")
 
 @app.route("/register")
 def register():
@@ -134,11 +134,12 @@ def reserve_slot():
         start_time = request.form["start_time"]
         end_time = request.form["end_time"]
         slot_id = request.form["id"]
+        location = request.form["location"]
         time_slots.book_time(session["user_id"], slot_id)
 
         booked_times = time_slots.get_booked_times(session["user_id"])
 
-        return render_template("bookings.html", info=[user, date, start_time, end_time], booked_times=booked_times)
+        return render_template("bookings.html", info=[user, date, start_time, end_time, location], booked_times=booked_times)
     
     if request.method == "GET":
         booked_times = time_slots.get_booked_times(session["user_id"])

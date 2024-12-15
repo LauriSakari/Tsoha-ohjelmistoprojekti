@@ -3,11 +3,11 @@
 {% block content %}
 
 {% if info %}
-    <h1>Varaus vahvistettu {{  session.username }}!</h1>
-    <p>Kiipeilet käyttäjän {{ info[0] }} kanssa {{ info[1] }} klo {{ info[2] }} - {{ info[3] }} </p>
+    <h1>Varaus vahvistettu, {{  session.username }}!</h1>
+    <p>Kiipeilet käyttäjän {{ info[0] }} kanssa {{ info[1] }} klo {{ info[2] }} - {{ info[3] }} paikassa {{ info[4]}}</p>
 {% endif %}
 
-<p>Varatut aikasi:</p>
+<h2>Varatut aikasi:</h2>
 <hr>
 {% for time in booked_times %}
 <i>Lähettäjä:</i> {{ time.username }}
@@ -17,6 +17,8 @@
 <i>Aloitusaika:</i> {{ time.start_time }}
 <p>
 <i>Lopetusaika:</i> {{ time.end_time }}
+<p></p>
+<i>Paikka:</i> {{ time.name }}
 <p></p>
 <hr>
 {% endfor %}

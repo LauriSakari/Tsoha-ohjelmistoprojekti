@@ -13,6 +13,8 @@
 <i>Aloitusaika:</i> {{ time.start_time }}
 <p>
 <i>Lopetusaika:</i> {{ time.end_time }}
+<p>
+<i>Paikka:</i> {{ time.name }}
 <p></p>
 <form action="/reserved_slots" method="POST">
     <input type="hidden" value="{{ time.id }}" name="id"/>
@@ -20,6 +22,7 @@
     <input type="hidden" value="{{ time.date_of_time }}" name="date"/>
     <input type="hidden" value="{{ time.start_time }}" name="start_time"/>
     <input type="hidden" value="{{ time.end_time }}" name="end_time"/>
+    <input type="hidden" value="{{ time.name }}" name="location"/>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <button type="submit">Varaa aika</button>
 </form>

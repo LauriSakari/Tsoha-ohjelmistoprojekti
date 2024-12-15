@@ -34,7 +34,15 @@ Tilanne 01.12.24 edellisten toimitojen lisäksi
 - Käyttäjä voi palata takaisin päänäkymään klikkaamalla paluulinkkiä
 - Tämän jälkeen kaikki on vielä kesken eikä toimi oikein.
 
-
+Tilanne 15.12.24 edellisten toimitojen lisäksi
+ - tietoturvvaa parannettu lisäämällä csrf_token
+ - Ulkonäköä parannettu ja selkeytetty
+ - Koodi refaktoroitu käyttämään block contentia rakenteena
+ - Käyttäjä pääsee sisäänkirjautuessa näkemään linkit joiden takaa löytyy seuraavat toiminnot:
+    - voi nähdä ja kirjoittaa viestejä toisille käyttäjille ja poistaa omia viestejä.
+    - voi ilmoittaa aikoja jolloin on vapaana kiipeämään 
+    - voi nähdä listan muiden käyttämien ilmoittamia aikoja ja varata sieltä aikoja
+    - voi nähdä listan omista varatuista ajoista  
 
 Käynnistysohjeet:
 
